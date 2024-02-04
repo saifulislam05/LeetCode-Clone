@@ -3,7 +3,7 @@ import React from "react";
 const Navbar = () => {
   return (
     <nav class="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 bg-neutral">
-      <div class="flex w-full items-center justify-between max-w-[1200px] mx-auto ">
+      <div class="flex w-11/12 md:w-10/12 items-center justify-between  mx-auto ">
         <a class="h-[22px] mr-14" href="/">
           <img
             src="https://leetclone.vercel.app/logo-full.png"
