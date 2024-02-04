@@ -1,29 +1,30 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 const TableRow = () => {
   return (
     <>
-      <tr class="*:py-2 *:px-4">
-        <td class="font-medium whitespace-nowrap text-dark-green-s"></td>
-        <td class=" ">
-          <a
-            class="hover:text-blue-600 cursor-pointer"
-            href="/problems/reverse-linked-list"
+      <tr className="*:py-2 *:px-4">
+        <td className="font-medium whitespace-nowrap text-dark-green-s"></td>
+        <td className=" ">
+          <Link
+            to="/problems/reverse-linked-list"
+            className="hover:text-blue-600 cursor-pointer"
           >
             2. Reverse Linked List
-          </a>
+          </Link>
         </td>
         <td class={`text-error`}>Hard</td>
-        <td class="">Linked List</td>
-        <td class="">
+        <td className="">Linked List</td>
+        <td className="">
           <svg
             stroke="currentColor"
             fill="currentColor"
-            stroke-width="0"
+            strokeWidth="0"
             viewBox="0 0 1024 1024"
             font-size="28"
             color=""
-            class="cursor-pointer hover:text-red-600"
+            className="cursor-pointer hover:text-red-600"
             height="1em"
             width="1em"
             xmlns="http://www.w3.org/2000/svg"
@@ -32,8 +33,8 @@ const TableRow = () => {
           </svg>
         </td>
       </tr>
-      <tr class="bg-slate-800 *:py-2 *:px-4">
-        <td class="font-medium whitespace-nowrap text-dark-green-s">
+      <tr className="bg-slate-800 *:py-2 *:px-4">
+        <td className="font-medium whitespace-nowrap text-dark-green-s">
           <span data-state="closed">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -41,29 +42,30 @@ const TableRow = () => {
               width="1em"
               height="1em"
               fill="currentColor"
-              class="h-5 w-5 text-[#3dbf77] inline-block shrink-0 fill-none stroke-current"
+              className="h-5 w-5 text-[#3dbf77] inline-block shrink-0 fill-none stroke-current"
             >
               <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M21.6 12a9.6 9.6 0 01-9.6 9.6 9.6 9.6 0 110-19.2c1.507 0 2.932.347 4.2.965M19.8 6l-8.4 8.4L9 12"
               ></path>
             </svg>
           </span>
         </td>
-        <td class=" ">
-          <a
-            class="hover:text-blue-600 cursor-pointer"
-            href="/problems/reverse-linked-list"
+        <td className=" ">
+          <Link
+            to="/problems/reverse-linked-list"
+            className="hover:text-blue-600 cursor-pointer"
           >
+            
             2. Reverse Linked List
-          </a>
+          </Link>
         </td>
         <td class={`text-error`}>Hard</td>
-        <td class="">Linked List</td>
-        <td class="">
-          <p class="text-gray-400">Coming soon</p>
+        <td className="">Linked List</td>
+        <td className="">
+          <p className="text-gray-400">Coming soon</p>
         </td>
       </tr>
 
