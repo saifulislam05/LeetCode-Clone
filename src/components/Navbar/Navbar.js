@@ -1,111 +1,87 @@
 import React from "react";
 
 const Navbar = () => {
+  const navItems = [
+    {
+      id: 1,
+      name: "Explore",
+      navigationPath: "/explore",
+      arrow: false,
+    },
+    {
+      id: 2,
+      name: "Problems",
+      navigationPath: "/problemset",
+      arrow: false,
+    },
+    {
+      id: 3,
+      name: "Contest",
+      navigationPath: "/contest",
+      arrow: false,
+    },
+    {
+      id: 4,
+      name: "Discuss",
+      navigationPath: "/discuss",
+      arrow: false,
+    },
+    {
+      id: 4,
+      name: "Interview",
+      navigationPath: "/interview",
+      arrow: true,
+    },
+    {
+      id: 4,
+      name: "Store",
+      navigationPath: "/store",
+      arrow: true,
+    },
+    // Add more items as needed
+  ];
+
   return (
-    <nav class="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 bg-neutral">
-      <div class="flex w-11/12 md:w-10/12 items-center justify-between  mx-auto ">
-        <a class="h-[22px] mr-14" href="/">
+    <nav className="relative flex h-[50px] w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 bg-neutral">
+      <div className="flex w-11/12 md:w-10/12 items-center justify-between mx-auto">
+        <a className="h-[22px] mr-14" href="/">
           <img
             src="https://leetclone.vercel.app/logo-full.png"
             alt="Logo"
-            class="h-full"
+            className="h-full"
           />
         </a>
-        <ul class="relative m-0 flex h-full grow items-center gap-6 self-end p-0">
-          <li class="relative flex h-full items-center text-sm ">
-            <a
-              class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary text-text-secondary dark:text-text-secondary"
-              href="/explore/"
+        <ul className="relative m-0 flex h-full grow items-center gap-6 self-end p-0">
+          {navItems.map((item) => (
+            <li
+              key={item.id}
+              className={`flex items-center hover:scale-105 ${
+                item.name == "Problems" && "border-b-[1px] hover:scale-100"
+              } ${item.name == "Store" && "text-yellow-600"}`}
             >
-              Explore
-            </a>
-          </li>
-          <li class="relative flex h-full items-center text-sm  nav-li-after border-text-primary dark:border-text-primary">
-            <a
-              class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary font-medium text-text-primary dark:text-text-primary"
-              href="/problemset"
-            >
-              Problems
-            </a>
-          </li>
-          <li class="relative flex h-full items-center text-sm ">
-            <a
-              class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary text-text-secondary dark:text-text-secondary"
-              href="/contest"
-            >
-              Contest
-            </a>
-          </li>
-          <li class="relative flex h-full items-center text-sm ">
-            <a
-              class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary text-text-secondary dark:text-text-secondary"
-              href="/discuss/"
-            >
-              Discuss
-            </a>
-          </li>
-          <li class="relative flex h-full items-center text-sm ">
-            <div class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary text-text-secondary dark:text-text-secondary">
-              <span class="flex items-center focus:outline-none">
-                <button
-                  class="contents"
-                  id="headlessui-menu-button-:r0:"
-                  type="button"
-                  aria-haspopup="menu"
-                  aria-expanded="false"
-                  data-headlessui-state=""
+              <a className="w-fit" href={item.navigationPath}>
+                {item.name}
+              </a>
+              {/* Optionally render an arrow icon if item.arrow is true */}
+              {item.arrow && (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  width="1em"
+                  height="1em"
+                  fill="currentColor"
+                  className="ml-1 h-[14px] w-[14px]"
+                  aria-hidden="true"
                 >
-                  Interview{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    height="1em"
-                    fill="currentColor"
-                    class="ml-1 h-[14px] w-[14px]"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-              </span>
-            </div>
-          </li>
-          <li class="relative flex h-full items-center text-sm ">
-            <div class="relative whitespace-nowrap hover:text-text-primary dark:hover:text-text-primary flex items-center text-base leading-[22px] cursor-pointer hover:text-text-primary dark:hover:text-text-primary text-text-secondary dark:text-text-secondary">
-              <span class="flex items-center focus:outline-none !text-brand-orange border-brand-orange">
-                <button
-                  class="contents"
-                  id="headlessui-menu-button-:r1:"
-                  type="button"
-                  aria-haspopup="menu"
-                  aria-expanded="false"
-                  data-headlessui-state=""
-                >
-                  Store{" "}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    width="1em"
-                    height="1em"
-                    fill="currentColor"
-                    class="ml-1 h-[14px] w-[14px]"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-              </span>
-            </div>
-          </li>
+                  <path
+                    fillRule="evenodd"
+                    d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+              )}
+            </li>
+          ))}
         </ul>
         <div class="flex items-center space-x-4 flex-1 justify-end">
           <div class="cursor-pointer group relative">
@@ -144,4 +120,19 @@ const Navbar = () => {
   );
 };
 
+{/* <svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width="1em"
+  height="1em"
+  fill="currentColor"
+  class="ml-1 h-[14px] w-[14px]"
+  aria-hidden="true"
+>
+  <path
+    fill-rule="evenodd"
+    d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
+    clip-rule="evenodd"
+  ></path>
+</svg>; */}
 export default Navbar;
