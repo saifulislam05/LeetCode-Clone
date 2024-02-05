@@ -54,12 +54,12 @@ const Navbar = () => {
           />
         </a>
         {pathname.includes("/problems/") ? (
-          <div class="flex items-center gap-4  justify-center w-fit mx-auto">
-            <div class="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
+          <div className="flex items-center gap-4  justify-center w-fit mx-auto">
+            <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 320 512"
                 height="1em"
                 width="1em"
@@ -69,32 +69,32 @@ const Navbar = () => {
               </svg>
             </div>
             <a
-              class="flex items-center gap-2 font-medium max-w-[170px] truncate text-dark-gray-8 cursor-pointer"
+              className="flex items-center gap-2 font-medium max-w-[170px] truncate text-dark-gray-8 cursor-pointer"
               href="/"
             >
-              <div class="">
+              <div className="">
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
-                  stroke-width="0"
+                  strokeWidth="0"
                   viewBox="0 0 16 16"
                   height="1.3em"
                   width="1.3em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                   ></path>
                 </svg>
               </div>
               <p>Problem List</p>
             </a>
-            <div class="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
+            <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
-                stroke-width="0"
+                strokeWidth="0"
                 viewBox="0 0 320 512"
                 height="1em"
                 width="1em"
@@ -110,8 +110,8 @@ const Navbar = () => {
               <li
                 key={item.id}
                 className={`flex items-center hover:scale-105 ${
-                  item.name == "Problems" && "border-b-[1px] hover:scale-100"
-                } ${item.name == "Store" && "text-yellow-600"}`}
+                  item.name === "Problems" && "border-b-[1px] hover:scale-100"
+                } ${item.name === "Store" && "text-yellow-600"}`}
               >
                 <a className="w-fit" href={item.navigationPath}>
                   {item.name}
@@ -186,9 +186,9 @@ const Navbar = () => {
   aria-hidden="true"
 >
   <path
-    fill-rule="evenodd"
+    fillRule="evenodd"
     d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
-    clip-rule="evenodd"
+    clipRule="evenodd"
   ></path>
 </svg>; */}
 export default Navbar;

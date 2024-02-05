@@ -13,22 +13,22 @@ const DescriptionActions = () => {
   return (
     <div className="mb-0.5 gap-3 flex items-center text-[#fff9] *:cursor-pointer">
       <div className="flex gap-0.5">
-        <button class="flex items-center gap-2 px-3 py-1 rounded-l-lg text-sm w-fit bg-[#39494f]">
+        <button className="flex items-center gap-2 px-3 py-1 rounded-l-lg text-sm w-fit bg-[#39494f]">
           <AiOutlineLike size={18} />
 
-          <div class="font-semibold">54.8K</div>
+          <div className="font-semibold">54.8K</div>
         </button>
-        <button class="flex items-center gap-2 px-3 py-1 rounded-r-lg text-sm w-fit bg-[#39494f]">
+        <button className="flex items-center gap-2 px-3 py-1 rounded-r-lg text-sm w-fit bg-[#39494f]">
           <AiOutlineDislike size={18} />
 
-          <div class="font-semibold">54.8K</div>
+          <div className="font-semibold">54.8K</div>
         </button>
       </div>
       <div className="flex gap-0.5">
-        <button class="flex text-[#fff9] items-center gap-2 px-3 py-1 rounded-lg text-sm w-fit  hover:bg-[#39494f]">
+        <button className="flex text-[#fff9] items-center gap-2 px-3 py-1 rounded-lg text-sm w-fit  hover:bg-[#39494f]">
           <FaRegComment size={18} />
 
-          <div class="font-semibold">54.8K</div>
+          <div className="font-semibold">54.8K</div>
         </button>
       </div>
       <span className="">|</span>

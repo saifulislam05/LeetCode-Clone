@@ -8,19 +8,19 @@ const ExtraInfoNav = ({ problemType = "Hard" }) => {
     textColor = "text-error";
   }
   return (
-    <div class="flex gap-1 mt-3 items-center text-xs font-semibold *:flex *:items-center *:h-fit *:px-2 *:py-0.5 *:rounded-2xl  *:bg-[#56777356] *:cursor-pointer ">
+    <div className="flex gap-1 mt-3 items-center text-xs font-semibold *:flex *:items-center *:h-fit *:px-2 *:py-0.5 *:rounded-2xl  *:bg-[#56777356] *:cursor-pointer ">
       <div className="">
         <span class={`${textColor}`}>{problemType}</span>
       </div>
 
-      <div class=" hover:opacity-80">
-        <div class="relative  before:block before:h-4 before:w-4 h-4 w-4 fill-none stroke-current">
+      <div className=" hover:opacity-80">
+        <div className="relative  before:block before:h-4 before:w-4 h-4 w-4 fill-none stroke-current">
           <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="far"
             data-icon="tag"
-            class="svg-inline--fa fa-tag absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="svg-inline--fa fa-tag absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 448 512"
@@ -33,31 +33,31 @@ const ExtraInfoNav = ({ problemType = "Hard" }) => {
         </div>
         Topics
       </div>
-      <div class="hover:opacity-80 ">
+      <div className="hover:opacity-80 ">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           width="1em"
           height="1em"
           fill="currentColor"
-          class="h-3.5 w-3.5"
+          className="h-3.5 w-3.5"
         >
           <path
-            fill-rule="evenodd"
+            fillRule="evenodd"
             d="M7 8v2H6a3 3 0 00-3 3v6a3 3 0 003 3h12a3 3 0 003-3v-6a3 3 0 00-3-3h-1V8A5 5 0 007 8zm8 0v2H9V8a3 3 0 116 0zm-3 6a2 2 0 100 4 2 2 0 000-4z"
-            clip-rule="evenodd"
+            clipRule="evenodd"
           ></path>
         </svg>
         Companies
       </div>
-      <div class="hover:opacity-80 ">
-        <div class="relative text-[14px] leading-[normal] p-[1px] before:block before:h-3.5 before:w-3.5 h-3.5 w-3.5 fill-none stroke-current">
+      <div className="hover:opacity-80 ">
+        <div className="relative text-[14px] leading-[normal] p-[1px] before:block before:h-3.5 before:w-3.5 h-3.5 w-3.5 fill-none stroke-current">
           <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="far"
             data-icon="lightbulb"
-            class="svg-inline--fa fa-lightbulb absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            className="svg-inline--fa fa-lightbulb absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 384 512"
