@@ -10,7 +10,7 @@ import { useLocation,  } from "react-router-dom";
     {
       id: 2,
       name: "Problems",
-      navigationPath: "/problemset",
+      navigationPath: "/",
       arrow: false,
     },
     {
