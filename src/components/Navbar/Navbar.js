@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation,  } from "react-router-dom";
+import { useLocation,Link  } from "react-router-dom";
  const navItems = [
     {
       id: 1,
@@ -54,56 +54,58 @@ const Navbar = () => {
           />
         </a>
         {pathname.includes("/problems/") ? (
-          <div className="flex items-center gap-4  justify-center w-fit mx-auto">
-            <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                strokeWidth="0"
-                viewBox="0 0 320 512"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
-              </svg>
-            </div>
-            <a
-              className="flex items-center gap-2 font-medium max-w-[170px] truncate text-dark-gray-8 cursor-pointer"
-              href="/"
-            >
-              <div className="">
+          <Link to="/">
+            <div className="flex items-center gap-4  justify-center w-fit mx-auto">
+              <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
                 <svg
                   stroke="currentColor"
                   fill="currentColor"
                   strokeWidth="0"
-                  viewBox="0 0 16 16"
-                  height="1.3em"
-                  width="1.3em"
+                  viewBox="0 0 320 512"
+                  height="1em"
+                  width="1em"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
-                  ></path>
+                  <path d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
                 </svg>
               </div>
-              <p>Problem List</p>
-            </a>
-            <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                strokeWidth="0"
-                viewBox="0 0 320 512"
-                height="1em"
-                width="1em"
-                xmlns="http://www.w3.org/2000/svg"
+              <a
+                className="flex items-center gap-2 font-medium max-w-[170px] truncate text-dark-gray-8 cursor-pointer"
+                href="/"
               >
-                <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-              </svg>
+                <div className="">
+                  <svg
+                    stroke="currentColor"
+                    fill="currentColor"
+                    strokeWidth="0"
+                    viewBox="0 0 16 16"
+                    height="1.3em"
+                    width="1.3em"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                    ></path>
+                  </svg>
+                </div>
+                <p>Problem List</p>
+              </a>
+              <div className="flex items-center justify-center rounded   h-8 w-8 cursor-pointer">
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  strokeWidth="0"
+                  viewBox="0 0 320 512"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+                </svg>
+              </div>
             </div>
-          </div>
+          </Link>
         ) : (
           <ul className="relative m-0 flex h-full grow items-center gap-6 self-end p-0">
             {navItems.map((item) => (
@@ -146,8 +148,8 @@ const Navbar = () => {
               src="https://assets.leetcode.com/users/default_avatar.jpg"
               alt="Rounded avatar"
             />
-            <div className="absolute top-10 left-2/4 -translate-x-2/4 mx-auto bg-dark-layer-1 text-brand-orange p-2 rounded shadow-lg z-40 group-hover:scale-100 scale-0 transition-all duration-300 ease-in-out">
-              <p className="text-sm">bijulia@gmail.com</p>
+            <div className="absolute top-5 left-2/4 -translate-x-2/4 mx-auto bg-dark-layer-1 text-brand-orange p-2 rounded shadow-lg z-40 group-hover:scale-100 scale-0 transition-all duration-300 ease-in-out">
+              <p className="text-sm">saiful@gmail.com</p>
             </div>
           </div>
           <button

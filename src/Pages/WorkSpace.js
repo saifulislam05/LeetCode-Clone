@@ -5,7 +5,7 @@ import Description from "../components/WorkSpace/Description/Description";
 
 const WorkSpace = () => {
   return (
-    <div className="mx-1 my-2">
+    <div className="mx-1 my-2 overflow-hidden">
       <Split
         sizes={[50, 50]}
         direction="horizontal"

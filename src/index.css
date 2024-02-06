@@ -17,12 +17,32 @@ code {
     monospace;
 }
 
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffffff9d;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
+
 .gutter {
-  background-color: rgba(238, 238, 238, 0.24);
-  background-repeat: no-repeat;
+  /*background-color: rgba(238, 238, 238, 0.24);
+  */background-repeat: no-repeat;
   background-position: 50%;
+  opacity: 0;
+  transition:all .2s ;
+  -webkit-transition:all .2s ;
+  -moz-transition:all .2s ;
+  -ms-transition:all .2s ;
+  -o-transition:all .2s ;
 }
 .gutter:hover {
+  opacity: 1;
   background-color: #0a84ff;
 }
 

@@ -8,7 +8,7 @@ const ExtraInfoNav = ({ problemType = "Hard" }) => {
     textColor = "text-error";
   }
   return (
-    <div className="flex gap-1 mt-3 items-center text-xs font-semibold *:flex *:items-center *:h-fit *:px-2 *:py-0.5 *:rounded-2xl  *:bg-[#56777356] *:cursor-pointer ">
+    <div className="flex gap-1 mt-3 items-center text-xs font-semibold mb-6 *:flex *:items-center *:h-fit *:px-2 *:py-0.5 *:rounded-2xl  *:bg-[#56777356] *:cursor-pointer ">
       <div className="">
         <span class={`${textColor}`}>{problemType}</span>
       </div>
