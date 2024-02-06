@@ -14,7 +14,7 @@ const TableRow = () => {
             2. Reverse Linked List
           </Link>
         </td>
-        <td class={`text-error`}>Hard</td>
+        <td className={`text-error`}>Hard</td>
         <td className="">Linked List</td>
         <td className="">
           <svg
@@ -22,7 +22,7 @@ const TableRow = () => {
             fill="currentColor"
             strokeWidth="0"
             viewBox="0 0 1024 1024"
-            font-size="28"
+            fontSize="28"
             color=""
             className="cursor-pointer hover:text-red-600"
             height="1em"
@@ -58,18 +58,15 @@ const TableRow = () => {
             to="/problems/reverse-linked-list"
             className="hover:text-blue-600 cursor-pointer"
           >
-            
             2. Reverse Linked List
           </Link>
         </td>
-        <td class={`text-error`}>Hard</td>
+        <td className={`text-error`}>Hard</td>
         <td className="">Linked List</td>
         <td className="">
           <p className="text-gray-400">Coming soon</p>
         </td>
       </tr>
-
-      
     </>
   );
 }

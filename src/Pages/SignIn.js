@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import validator from "validator";
+
+import { signIn, googleSignIn } from "../redux/features/userSlice";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +11,7 @@ const SignIn = () => {
   const [emailValidate, setEmailValidate] = useState(true);
   const [emailFocus, setEmailFocus] = useState(false); // Track focus state
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEmailInput = (e) => {
     const newEmail = e.target.value;
@@ -29,16 +33,19 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    emailFocus(true);
+    setEmailFocus(true);
     if (email && emailValidate && password) {
       try {
-        navigate("/");
+        dispatch(signIn({ email, password })).then(navigate("/"));
       } catch (error) {
         console.log(error.message);
       }
     }
   };
 
+  const handleGoogleSignIn = () => {
+    dispatch(googleSignIn());
+  }
   return (
     <div
       className="w-screen h-full flex justify-center items-center"
@@ -84,9 +91,7 @@ const SignIn = () => {
             Sign In
           </button>
           <div className="flex mt-3 justify-between text-sm">
-            <p  className=" cursor-pointer">
-              Forgot Password
-            </p>
+            <p className=" cursor-pointer">Forgot Password</p>
             <Link to="/signup" className=" hover:text-blue-500">
               Sign Up
             </Link>
@@ -94,7 +99,7 @@ const SignIn = () => {
           <p className="text-xs text-center my-2 text-[#c1cbdb]">
             Or sign in with
           </p>
-          <button className="w-fit mx-auto">
+          <button className="w-fit mx-auto" onClick={handleGoogleSignIn}>
             <svg
               className="h-6 w-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"

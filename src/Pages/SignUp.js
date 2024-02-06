@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "../redux/features/userSlice";
+import { useDispatch } from "react-redux";
 import validator from "validator";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordMatched, setPasswordMatched] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordMatched, setPasswordMatched] = useState(false);
   const [emailValidate, setEmailValidate] = useState(true);
   const [emailFocus, setEmailFocus] = useState(false); // Track focus state
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-      if (password === confirmPassword) {
-        setPasswordMatched(true);
-      } else {
-        setPasswordMatched(false);
-      }
-    }, [password, confirmPassword]);
+  useEffect(() => {
+    if (password === confirmPassword) {
+      setPasswordMatched(true);
+    } else {
+      setPasswordMatched(false);
+    }
+  }, [password, confirmPassword]);
   const handleEmailInput = (e) => {
     const newEmail = e.target.value;
     setEmail(newEmail);
@@ -38,10 +41,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    emailFocus(true);
-    if (email && emailValidate && password) {
+    setEmailFocus(true);
+    if (email && emailValidate && passwordMatched && password) {
       try {
-        navigate("/");
+        dispatch(signUp({ email, password })).then(navigate("/"));
       } catch (error) {
         console.log(error.message);
       }
@@ -94,11 +97,14 @@ const SignUp = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="flex items-center py-2 px-4 w-64 bg-gray-200 mt-4 rounded-lg focus:outline-none focus:shadow-lg"
           />
+          {!passwordMatched && confirmPassword.length > 0 && (
+            <p className="text-red-500 text-xs mt-1">Password do not match!</p>
+          )}
           <button
             type="submit"
             className="flex items-center justify-center py-3 px-6 w-64 bg-[#3f525b] mt-8 rounded font-semibold text-sm text-blue-100 duration-200 hover:bg-[#3f525be7]"
           >
-            Sign In
+            Sign Up
           </button>
           <div className="flex mt-3 text-sm gap-1 w-fit mx-auto">
             {/* <Link to="/forgot-password" className=" hover:text-blue-500">

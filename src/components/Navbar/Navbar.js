@@ -1,48 +1,20 @@
 import React from "react";
-import { useLocation,Link  } from "react-router-dom";
- const navItems = [
-    {
-      id: 1,
-      name: "Explore",
-      navigationPath: "/explore",
-      arrow: false,
-    },
-    {
-      id: 2,
-      name: "Problems",
-      navigationPath: "/",
-      arrow: false,
-    },
-    {
-      id: 3,
-      name: "Contest",
-      navigationPath: "/contest",
-      arrow: false,
-    },
-    {
-      id: 4,
-      name: "Discuss",
-      navigationPath: "/discuss",
-      arrow: false,
-    },
-    {
-      id: 5,
-      name: "Interview",
-      navigationPath: "/interview",
-      arrow: true,
-    },
-    {
-      id: 6,
-      name: "Store",
-      navigationPath: "/store",
-      arrow: true,
-    },
-    // Add more items as needed
-  ];
-const Navbar = () => {
-  const {pathname} = useLocation();
-  console.log(pathname);
+import { useLocation, Link } from "react-router-dom";
+import { FiLogOut } from "react-icons/fi";
+import { navItems } from "./navItemsData";
+import {useSelector,useDispatch} from "react-redux"
+import { logOut } from "../../redux/features/userSlice";
 
+
+const Navbar = () => {
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  
+
+const handleLogOut = () => {
+  dispatch(logOut())
+}
   return (
     <nav className="relative flex h-12 w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 bg-neutral">
       <div className="flex w-11/12 md:w-10/12 items-center justify-between mx-auto">
@@ -140,8 +112,7 @@ const Navbar = () => {
             ))}
           </ul>
         )}
-
-        <div className="flex items-center space-x-4  justify-end">
+{user?.email ? (<div className="flex items-center space-x-4  justify-end">
           <div className="cursor-pointer group relative">
             <img
               className="w-7 h-7 rounded-full"
@@ -149,36 +120,33 @@ const Navbar = () => {
               alt="Rounded avatar"
             />
             <div className="absolute top-5 left-2/4 -translate-x-2/4 mx-auto bg-dark-layer-1 text-brand-orange p-2 rounded shadow-lg z-40 group-hover:scale-100 scale-0 transition-all duration-300 ease-in-out">
-              <p className="text-sm">saiful@gmail.com</p>
+              <p className="text-sm">{user?.email}</p>
             </div>
           </div>
-          <button
-            className=" py-1.5 px-3 cursor-pointer rounded text-brand-orange"
-            fdprocessedid="yfch0p"
-          >
-            <svg
-              stroke="currentColor"
-              fill="none"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" y1="12" x2="9" y2="12"></line>
-            </svg>
+
+          <button onClick={handleLogOut} className="flex items-center justify-center hover:scale-110 duration-200">
+            <FiLogOut />
           </button>
+        </div>):(<div className="flex items-center space-x-4  justify-end">
+          <div className="text-sm flex gap-2 items-center font-semibold ">
+            <Link to="/signup" className="hover:text-white">
+              Register
+            </Link>{" "}
+            <span className="font-normal">or</span>{" "}
+            <Link to="/signin" className="hover:text-white">
+              Sign in
+            </Link>
+          </div>
         </div>
+        )}
+        
       </div>
     </nav>
   );
 };
 
-{/* <svg
+{
+  /* <svg
   xmlns="http://www.w3.org/2000/svg"
   viewBox="0 0 24 24"
   width="1em"
@@ -192,5 +160,6 @@ const Navbar = () => {
     d="M4.929 7.913l7.078 7.057 7.064-7.057a1 1 0 111.414 1.414l-7.77 7.764a1 1 0 01-1.415 0L3.515 9.328a1 1 0 011.414-1.414z"
     clipRule="evenodd"
   ></path>
-</svg>; */}
+</svg>; */
+}
 export default Navbar;

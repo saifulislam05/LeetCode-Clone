@@ -5,7 +5,7 @@ import TestCases from "./TestCases";
 
 const PlayGround = () => {
   return (
-    <div className="w-[inherit] h-full p-0.5 ">
+    <div className="w-[inherit] h-full p-0.5 pl-0">
       <div className="relative w-full h-full overflow-hidden">
 
           <Split
