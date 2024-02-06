@@ -9,7 +9,7 @@ import { logOut } from "../../redux/features/userSlice";
 const Navbar = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user) ;
   
 
 const handleLogOut = () => {
@@ -18,13 +18,13 @@ const handleLogOut = () => {
   return (
     <nav className="relative flex h-12 w-full shrink-0 items-center px-5 bg-dark-layer-1 text-dark-gray-7 bg-neutral">
       <div className="flex w-11/12 md:w-10/12 items-center justify-between mx-auto">
-        <a className="h-[22px] mr-14" href="/">
+        <Link to="/" className="h-[22px] mr-14" >
           <img
             src="https://leetclone.vercel.app/logo-full.png"
             alt="Logo"
             className="h-full"
           />
-        </a>
+        </Link>
         {pathname.includes("/problems/") ? (
           <Link to="/">
             <div className="flex items-center gap-4  justify-center w-fit mx-auto">
@@ -87,9 +87,9 @@ const handleLogOut = () => {
                   item.name === "Problems" && "border-b-[1px] hover:scale-100"
                 } ${item.name === "Store" && "text-yellow-600"}`}
               >
-                <a className="w-fit" href={item.navigationPath}>
+                <Link to={item.navigationPath} className="w-fit" >
                   {item.name}
-                </a>
+                </Link>
                 {/* Optionally render an arrow icon if item.arrow is true */}
                 {item.arrow && (
                   <svg

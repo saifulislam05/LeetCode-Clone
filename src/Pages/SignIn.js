@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
 import validator from "validator";
-
+import { toast } from "react-toastify";
 import { signIn, googleSignIn } from "../redux/features/userSlice";
 
 const SignIn = () => {
@@ -10,8 +10,27 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [emailValidate, setEmailValidate] = useState(true);
   const [emailFocus, setEmailFocus] = useState(false); // Track focus state
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { user, isLoading, isError, errorMessage } = useSelector(
+    (state) => state.user
+  );
+  useEffect(() => {
+    if (isError) {
+      toast.error(errorMessage, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        // transition: Bounce,
+      });
+    }
+  }, [errorMessage]);
 
   const handleEmailInput = (e) => {
     const newEmail = e.target.value;
@@ -36,7 +55,7 @@ const SignIn = () => {
     setEmailFocus(true);
     if (email && emailValidate && password) {
       try {
-        dispatch(signIn({ email, password })).then(navigate("/"));
+        dispatch(signIn({ email, password }));
       } catch (error) {
         console.log(error.message);
       }
@@ -45,6 +64,9 @@ const SignIn = () => {
 
   const handleGoogleSignIn = () => {
     dispatch(googleSignIn());
+  };
+  if (user?.email && !isLoading && !isError) {
+    return <Navigate to="/" />;
   }
   return (
     <div
@@ -86,9 +108,10 @@ const SignIn = () => {
           />
           <button
             type="submit"
+            disabled={isLoading}
             className="flex items-center justify-center py-3 px-6 w-64 bg-[#3f525b] mt-8 rounded font-semibold text-sm text-blue-100 duration-200 hover:bg-[#3f525be7]"
           >
-            Sign In
+            {isLoading ? <span className="loading"></span> : <span>Sign In</span>}
           </button>
           <div className="flex mt-3 justify-between text-sm">
             <p className=" cursor-pointer">Forgot Password</p>
@@ -99,7 +122,11 @@ const SignIn = () => {
           <p className="text-xs text-center my-2 text-[#c1cbdb]">
             Or sign in with
           </p>
-          <button className="w-fit mx-auto" onClick={handleGoogleSignIn}>
+          <button
+            className="w-fit mx-auto"
+            disabled={isLoading}
+            onClick={handleGoogleSignIn}
+          >
             <svg
               className="h-6 w-6 mr-2"
               xmlns="http://www.w3.org/2000/svg"

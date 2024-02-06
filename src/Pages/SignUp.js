@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../redux/features/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
+import { Navigate } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -11,8 +12,12 @@ const SignUp = () => {
   const [passwordMatched, setPasswordMatched] = useState(false);
   const [emailValidate, setEmailValidate] = useState(true);
   const [emailFocus, setEmailFocus] = useState(false); // Track focus state
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { user, isLoading, isError, error } = useSelector(
+    (state) => state.user
+  );
 
   useEffect(() => {
     if (password === confirmPassword) {
@@ -44,13 +49,16 @@ const SignUp = () => {
     setEmailFocus(true);
     if (email && emailValidate && passwordMatched && password) {
       try {
-        dispatch(signUp({ email, password })).then(navigate("/"));
+        dispatch(signUp({ email, password }));
       } catch (error) {
         console.log(error.message);
       }
     }
   };
-
+  if (user?.email && !isLoading && !isError) {
+    return <Navigate to="/" />;
+  }
+  
   return (
     <div
       className="w-screen h-full flex justify-center items-center"

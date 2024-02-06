@@ -17,7 +17,7 @@ function App() {
           element: <Problems />,
         },
         {
-          path: "/problems/:problem",
+          path: "/problems/:problemId",
           element: <WorkSpace />,
         },
         {

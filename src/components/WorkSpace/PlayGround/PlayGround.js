@@ -3,7 +3,8 @@ import Split from "react-split";
 import Editor from "./Editor";
 import TestCases from "./TestCases";
 
-const PlayGround = () => {
+const PlayGround = ({problem}) => {
+
   return (
     <div className="w-[inherit] h-full p-0.5 pl-0">
       <div className="relative w-full h-full overflow-hidden">
@@ -13,8 +14,8 @@ const PlayGround = () => {
             gutterSize={5}
             direction="vertical"
           >
-            <Editor />
-            <TestCases />
+            <Editor problem={problem} />
+            <TestCases problem={problem} />
           </Split>
 
       </div>
