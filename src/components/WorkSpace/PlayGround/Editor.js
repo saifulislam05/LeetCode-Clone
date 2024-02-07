@@ -7,9 +7,8 @@ import React from "react";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineFullscreen } from "react-icons/ai";
 
-const Editor = ({problem}) => {
-     const { data } = problem;
-     const { starterCode } = data;
+const Editor = ({ problem ,userCode,setUserCode }) => {
+
 
   return (
     <div className="p-0.5 pt-0">
@@ -37,7 +36,8 @@ const Editor = ({problem}) => {
         <div className="w-[inherit] h-full p-2 overflow-y-auto">
           <div className="h-fit">
             <CodeMirror
-              value={starterCode}
+              value={userCode}
+              onChange={(value) => setUserCode(value)}
               theme={nordInit({
                 settings: {
                   caret: "#c6c6c6",

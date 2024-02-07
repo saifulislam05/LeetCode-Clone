@@ -5,48 +5,89 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { auth, provider } from "../../firebase/firebaseConfig";
+import { doc, onSnapshot } from "firebase/firestore";
+import { auth, provider, firestore } from "../../firebase/firebaseConfig";
 
+// Utility functions for localStorage
+const saveUserToLocalstorage = (user) => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+const removeUserFromLocalstorage = () => {
+  localStorage.removeItem("user");
+};
+
+// Initialize state from localStorage
+const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+
+const initialState = {
+  user: userFromLocalStorage || null,
+  userData: null,
+  isLoading: false,
+  isError: false,
+  errorMessage: "",
+};
+
+// Async thunks
 export const signIn = createAsyncThunk(
   "user/signIn",
-  async ({ email, password }) => {
+  async ({ email, password }, { dispatch }) => {
     const response = await signInWithEmailAndPassword(auth, email, password);
+    saveUserToLocalstorage(response.user);
+    subscribeToUserData(response.user.uid, dispatch);
     return response.user;
   }
 );
 
 export const signUp = createAsyncThunk(
   "user/signUp",
-  async ({ email, password }) => {
+  async ({ email, password }, { dispatch }) => {
     const response = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
+    saveUserToLocalstorage(response.user);
+    subscribeToUserData(response.user.uid, dispatch);
     return response.user;
   }
 );
 
-export const googleSignIn = createAsyncThunk("user/googleSignIn", async () => {
-  const response = await signInWithPopup(auth, provider);
-  return response.user;
-});
+export const googleSignIn = createAsyncThunk(
+  "user/googleSignIn",
+  async (_, { dispatch }) => {
+    const response = await signInWithPopup(auth, provider);
+    saveUserToLocalstorage(response.user);
+    subscribeToUserData(response.user.uid, dispatch);
+    return response.user;
+  }
+);
 
 export const logOut = createAsyncThunk("user/logOut", async () => {
-  const response = await signOut(auth);
-  return response;
+  await signOut(auth);
+  removeUserFromLocalstorage();
 });
 
-const initialState = {
-  user: null,
-  isLoading: false,
-  isError: false,
-  errorMessage: "",
+// Firestore subscription
+const subscribeToUserData = (userId, dispatch) => {
+  const docRef = doc(firestore, "users", userId);
+  return onSnapshot(docRef, (doc) => {
+    if (doc.exists()) {
+      dispatch(setUserData(doc.data()));
+    } else {
+      console.log("No such document!");
+    }
+  });
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    setUserData: (state, action) => {
+      state.userData = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
@@ -97,6 +138,7 @@ export const userSlice = createSlice({
       .addCase(logOut.fulfilled, (state) => {
         state.isLoading = false;
         state.user = null;
+        state.userData = null;
       })
       .addCase(logOut.rejected, (state, action) => {
         state.isLoading = false;
@@ -105,5 +147,7 @@ export const userSlice = createSlice({
       });
   },
 });
+
+export const { setUserData } = userSlice.actions;
 
 export default userSlice.reducer;

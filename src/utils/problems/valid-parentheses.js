@@ -1,18 +1,24 @@
 import assert from "assert";
 
 const validParenthesesHandler = (fn) => {
-    try {
-        const tests = ["()", "()[]{}", "(]", "([)]", "{[]}"];
-        const answers = [true, true, false, false, true];
-        for (let i = 0; i < tests.length; i++) {
-            const result = fn(tests[i]);
-            assert.deepEqual(result, answers[i]);
-        }
-        return true;
-    } catch (error) {
-        console.error("Error from validParenthesesHandler: ", error);
-        throw new Error(error);
+  try {
+    const tests = ["()", "()[]{}", "(]", "([)]", "{[]}"];
+    const answers = [true, true, false, false, true];
+    for (let i = 0; i < tests.length; i++) {
+      const result = fn(tests[i]);
+      if (result !== answers[i]) {
+        throw new Error(
+          `Test case ${i} failed: Expected ${answers[i]}, got ${result}`
+        );
+      }
     }
+    console.log("All test cases passed!");
+    return true;
+  } catch (error) {
+    console.error("Error from validParenthesesHandler: ", error.message);
+    // Adjust error handling as needed for your application
+    return false;
+  }
 };
 
 const starterCodeValidParenthesesJS = `function validParentheses(s) {

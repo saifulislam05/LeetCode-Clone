@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import EditorFooter from "./EditorFooter";
 
-const TestCases = ({ problem }) => {
-     const { data } = problem;
+const TestCases = ({ problem, handleRun,handleSubmit }) => {
+  const { data } = problem;
   const { examples } = data;
-  
+
   const [activeTestCase, setActiveTestCase] = useState(0);
 
   return (
@@ -48,7 +48,7 @@ const TestCases = ({ problem }) => {
             </div>
           </div>
         </div>
-        <EditorFooter />
+        <EditorFooter handleRun={handleRun} handleSubmit={handleSubmit} />
       </div>
     </div>
   );

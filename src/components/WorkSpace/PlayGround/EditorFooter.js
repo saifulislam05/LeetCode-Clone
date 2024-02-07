@@ -1,6 +1,7 @@
 import React from "react";
 import { IoIosArrowUp } from "react-icons/io";
-const EditorFooter = () => {
+const EditorFooter = ({handleRun, handleSubmit }) => {
+
   return (
     <div className="mt-auto flex bg-base-200  z-10 w-full">
       <div className="mx-5 my-[10px] flex justify-between w-full">
@@ -24,10 +25,10 @@ const EditorFooter = () => {
           />
         </div>
         <div className="ml-auto flex items-center space-x-4">
-          <button className="flex items-center justify-center px-3 py-2 rounded-lg text-sm w-fit bg-[#39494f] hover:opacity-90">
+          <button className="flex items-center justify-center px-3 py-2 rounded-lg text-sm w-fit bg-[#39494f] hover:opacity-90" onClick={handleRun}>
             Run
           </button>
-          <button className="flex items-center justify-center px-3 py-2 rounded-lg text-sm w-fit text-white bg-[#27a332] hover:opacity-90">
+          <button className="flex items-center justify-center px-3 py-2 rounded-lg text-sm w-fit text-white bg-[#27a332] hover:opacity-90" onClick={handleSubmit}>
             Submit
           </button>
         </div>

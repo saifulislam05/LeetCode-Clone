@@ -1,9 +1,17 @@
-import assert from "assert";
 
 const starterCodeTwoSum = `function twoSum(nums, target) {
   // Write your code here
 };`;
 
+// A simple function to compare two arrays for equality
+const arraysAreEqual = (array1, array2) => {
+  return (
+    array1.length === array2.length &&
+    array1.every((element, index) => element === array2[index])
+  );
+};
+
+// Updated handlerTwoSum function with custom error handling
 const handlerTwoSum = (fn) => {
     try {
         const nums = [
@@ -11,7 +19,6 @@ const handlerTwoSum = (fn) => {
             [3, 2, 4],
             [3, 3],
         ];
-
         const targets = [9, 6, 6];
         const answers = [
             [0, 1],
@@ -21,14 +28,20 @@ const handlerTwoSum = (fn) => {
 
         for (let i = 0; i < nums.length; i++) {
             const result = fn(nums[i], targets[i]);
-            assert.deepStrictEqual(result, answers[i]);
+            if (!arraysAreEqual(result?.sort((a, b) => a - b), answers[i].sort((a, b) => a - b))) {
+                throw new Error(`Test case ${i} failed`);
+            }
         }
+        console.log("All test cases passed!");
         return true;
     } catch (error) {
-        console.log("twoSum handler function error", error);
-        throw new Error(error);
+        console.error("twoSum handler function error", error.message);
+        // Instead of re-throwing the error, you might want to handle it differently
+        // depending on your application's needs.
+        return false;
     }
 };
+
 
 export const twoSum = {
     id: "two-sum",
