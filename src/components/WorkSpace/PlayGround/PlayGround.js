@@ -17,6 +17,7 @@ const PlayGround = ({ problem }) => {
  const savedCode = localStorage.getItem(localStorageKey) || starterCode;
 
  const [userCode, setUserCode] = useState(savedCode);
+ const [runAccepted, setRunAccepted] = useState(false);
  const [success, setSuccess] = useState(false);
 
  const { user } = useSelector((state) => state.user);
@@ -42,7 +43,7 @@ const PlayGround = ({ problem }) => {
       const cb = new Function(`return ${editorCode}`)();
       const handler = handlerFunction;
       if (typeof handler === "function") {
-        const success = handler(cb);
+        setSuccess(() => handler(cb)); 
         if (success) {
           setSuccess(true);
           const userRef = doc(firestore, "users", user.uid);
@@ -81,7 +82,50 @@ const PlayGround = ({ problem }) => {
     }
   };
 
-  const handleRun = () => {};
+  const handleRun = async () => {
+    if (!user) {
+      toast.error("Please login to run your code", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+      return;
+    }
+
+    try {
+      const editorCode = userCode.slice(
+        userCode.indexOf(data.starterFunctionName)
+      );
+      const cb = new Function(`return ${editorCode}`)();
+      const handler = handlerFunction;
+      if (typeof handler === "function") {
+        setRunAccepted(()=>handler(cb)) 
+        if (runAccepted) {
+          setRunAccepted(true);
+          toast.success("Accepted. You can submit now", {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        } else {
+          // Directly show the toast for wrong answer instead of throwing an error
+          toast.error("Wrong answer", {
+            position: "top-center",
+            autoClose: 3000,
+            theme: "dark",
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error running code: ", error);
+      toast.error("There was a problem running your code.", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+    }
+  };
+
 
   return (
     <div className="w-[inherit] h-full p-0.5 pl-0">

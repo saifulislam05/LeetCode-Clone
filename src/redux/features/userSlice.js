@@ -20,6 +20,7 @@ const removeUserFromLocalstorage = () => {
 // Initialize state from localStorage
 const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
 
+
 const initialState = {
   user: userFromLocalStorage || null,
   userData: null,
@@ -27,6 +28,18 @@ const initialState = {
   isError: false,
   errorMessage: "",
 };
+
+// Add an initialization thunk for subscribing to user data on page refresh
+export const initializeUser = createAsyncThunk(
+  "user/initializeUser",
+  async (_, { getState, dispatch }) => {
+    const state = getState();
+    if (state.user.user) {
+      subscribeToUserData(state.user.user.uid, dispatch);
+    }
+  }
+);
+
 
 // Async thunks
 export const signIn = createAsyncThunk(
