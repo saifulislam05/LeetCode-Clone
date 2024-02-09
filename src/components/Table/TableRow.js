@@ -18,7 +18,6 @@ const TableRow = ({ idx, problem }) => {
   const { userData } = useSelector((state) => state.user);
 
   const submissionsForCurrentProblem = userData?.solvedProblems?.[id];
-  // console.log(submissionsForCurrentProblem[0] + id);
 
   let difficultyColor;
 

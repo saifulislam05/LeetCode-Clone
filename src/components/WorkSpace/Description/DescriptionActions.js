@@ -42,8 +42,6 @@ const DescriptionActions = ({ problem }) => {
       setDisLiked(false);
     }
 
-    // console.log("already liked  " + likedCurrentProblem);
-    // console.log("already Disliked  " + disLikedCurrentProblem);
   }, [setLiked, setDisLiked, likedCurrentProblem, disLikedCurrentProblem]);
 
   useEffect(() => {

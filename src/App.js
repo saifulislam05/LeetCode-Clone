@@ -4,13 +4,12 @@ import SignIn from "./Pages/SignIn";
 import Problems from "./Pages/Problems";
 import WorkSpace from "./Pages/WorkSpace";
 import SignUp from "./Pages/SignUp";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { initializeUser } from "./redux/features/userSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
-import UploadProblems from "./Pages/UploadProblems";
-import DemoCompiler from "./Pages/DemoCompiler";
+
 import { subscribeToProblems } from "./redux/features/problemSlice";
 function App() {
   const dispatch = useDispatch();
@@ -35,16 +34,7 @@ function App() {
         {
           path: "/signin",
           element: <SignIn />,
-        },
-        {
-          path: "/upload",
-          element: <UploadProblems />,
-        },
-        ,
-        {
-          path: "/dd",
-          element: <DemoCompiler />,
-        },
+        }
       ],
     },
   ]);

@@ -10,8 +10,6 @@ const TestCases = ({
 }) => {
   const { examples } = problem || {};
 
-  // If examples are not provided, activeTestCase doesn't apply.
-  // Alternatively, you could disable related UI elements.
   const [activeTestCase, setActiveTestCase] = useState(0);
 
   // Check if examples exist and have at least one element

@@ -4,7 +4,6 @@ import PlayGround from "../components/WorkSpace/PlayGround/PlayGround";
 import Description from "../components/WorkSpace/Description/Description";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { allProblems } from "../utils/problems/allProblems";
 
 const WorkSpace = () => {
   const { problemId } = useParams();

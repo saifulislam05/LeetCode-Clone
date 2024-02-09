@@ -2,7 +2,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { IoMdArrowDropup, IoMdArrowDropdown  } from "react-icons/io";
 
-// import { allProblems } from "../../utils/problems/allProblems";
 import TableRow from "./TableRow";
 
 const Table = () => {

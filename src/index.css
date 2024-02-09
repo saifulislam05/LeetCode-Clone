@@ -120,9 +120,3 @@ code {
 .hintsParrent:hover + .hintsOutput {
   display: flex;
 }
-
-/* problems table head  */
-/* th {
-  border-left: 0.1px solid #ddd;
-  border-right: 0.1px solid #ddd;
-} */

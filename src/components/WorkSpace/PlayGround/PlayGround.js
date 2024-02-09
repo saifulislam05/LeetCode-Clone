@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import Split from "react-split";
 import Editor from "./Editor";
 import TestCases from "./TestCases";
-import { auth, firestore } from "../../../firebase/firebaseConfig";
+import { firestore } from "../../../firebase/firebaseConfig";
 import {
-  arrayUnion,
   doc,
   getDoc,
-  setDoc,
   updateDoc,
   Timestamp,
 } from "firebase/firestore";

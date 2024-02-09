@@ -45,9 +45,7 @@ const Submissions = () => {
               />
             );
           })}
-          {/* {problems.map((problem, idx) => {
-            return <TableRow key={problem.id} idx={idx} problem={problem} />;
-          })} */}
+         
         </tbody>
       </table>
     </div>

@@ -10,7 +10,6 @@ import Submissions from "../Submissions/Submissions"
 const Description = ({ problem }) => {
   const [currentTab, setCurrentTab] = useState("description");
   const {id,  difficulty ,title, problemStatement, examples, constraints} = problem || {};
-  // const {  } = data;
 
   const { userData } = useSelector((state) => state.user);
 
@@ -127,7 +126,7 @@ const Description = ({ problem }) => {
                           />
                         </ul>
                       </div>
-                      <div>{/* <DescriptionActions /> */}</div>
+                      <div></div>
                     </div>
                   </div>
                 </div>
@@ -136,7 +135,7 @@ const Description = ({ problem }) => {
             </>
           ) : (
             <>
-              {/* changes will be from here  */}
+              
 
               <div className="flex py-2 min-w-full overflow-y-scroll bg-neutral h-full">
                 <div className="min-w-full h-fit">
@@ -145,8 +144,7 @@ const Description = ({ problem }) => {
                   </div>
                 </div>
               </div>
-              {/* if submission page then no need descriptionActions component  */}
-              {/* <DescriptionActions problem={problem} /> */}
+              
             </>
           )}
         </div>
