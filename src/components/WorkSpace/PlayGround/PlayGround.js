@@ -3,72 +3,105 @@ import Split from "react-split";
 import Editor from "./Editor";
 import TestCases from "./TestCases";
 import { auth, firestore } from "../../../firebase/firebaseConfig";
-import {arrayUnion, doc, getDoc, setDoc, updateDoc, Timestamp } from "firebase/firestore";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  Timestamp,
+} from "firebase/firestore";
 import { useSelector } from "react-redux";
 
 import { toast } from "react-toastify";
 
 const PlayGround = ({ problem }) => {
-  const { data } = problem;
-  const { starterCode, handlerFunction } = data;
- const localStorageKey = `code_${problem.id}`; // Unique key for localStorage
+  
+  const [userCode, setUserCode] = useState("");
+  const [runAccepted, setRunAccepted] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [runLoading, setRunLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  
+  const { starterCode, handlerFunction, starterFunctionName } = problem || {};
+  const { userData } = useSelector((state) => state.user);
 
- // Try to retrieve the code for the current problem from localStorage or fallback to starterCode
- const savedCode = localStorage.getItem(localStorageKey) || starterCode;
+  const localStorageKey = `code_${problem?.id}`;
 
- const [userCode, setUserCode] = useState(savedCode);
- const [runAccepted, setRunAccepted] = useState(false);
- const [success, setSuccess] = useState(false);
+  useEffect(() => {
+    
+    const savedCode = localStorage.getItem(localStorageKey);
 
- const { user } = useSelector((state) => state.user);
+    if (savedCode) {
+      
+      setUserCode(savedCode);
+    } else if (starterCode) {
+      
+      setUserCode(starterCode);
+    }
+    
+  }, [problem, starterCode, localStorageKey]);
 
- // Effect to save code to localStorage when userCode changes
- useEffect(() => {
-   localStorage.setItem(localStorageKey, userCode);
- }, [userCode, localStorageKey]);
-
+  useEffect(() => {
+    
+    if (userCode && userCode !== starterCode) {
+      localStorage.setItem(localStorageKey, userCode);
+    }
+    else if (userCode && userCode === starterCode) {
+      localStorage.removeItem(localStorageKey);
+    }
+  }, [userCode, starterCode, localStorageKey]);
+ 
   const handleSubmit = async () => {
-    if (!user) {
+    setSubmitLoading(true);
+    if (!userData) {
       toast.error("Please login to submit your code", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
       });
+      setSubmitLoading(false);
       return;
     }
-    try {
-      const editorCode = userCode.slice(
-        userCode.indexOf(data.starterFunctionName)
-      );
-      const cb = new Function(`return ${editorCode}`)();
-      const handler = handlerFunction;
-      if (typeof handler === "function") {
-        setSuccess(() => handler(cb)); 
-        if (success) {
-          setSuccess(true);
-          const userRef = doc(firestore, "users", user.uid);
-          const docSnap = await getDoc(userRef);
-          const submission = {
-            code: editorCode,
-            submissionTime: Timestamp.now(),
-            success: true,
-          };
 
-          // Check if document exists
-          if (!docSnap.exists()) {
-            // If the document does not exist, create it with the submission under the problem ID
-            await setDoc(userRef, {
-              submissions: { [problem.id]: [submission] },
-            });
-          } else {
-            // Document exists, update or add new submission under the problem ID
-            const existingSubmissions = docSnap.data().submissions || {};
-            const problemSubmissions = existingSubmissions[problem.id] || [];
-            problemSubmissions.push(submission);
+    try {
+      const editorCode = userCode.slice(userCode.indexOf(starterFunctionName));
+      const cb = new Function(`return ${editorCode}`)();
+      const handler = new Function("return " + eval(handlerFunction))();
+
+      if (typeof handler === "function") {
+        const passedAllTestCase = handler(cb);
+        if (passedAllTestCase) {
+          setSubmitted(true);
+          const userRef = doc(firestore, "users", userData.uid);
+          const docSnap = await getDoc(userRef);
+
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            const updatedProblems = { ...userData.solvedProblems };
+            const submission = {
+              language: "Javascript",
+              code: editorCode,
+              submissionTime: Timestamp.now(),
+              success: true,
+            };
+
+            if (updatedProblems[problem.id]) {
+              updatedProblems[problem.id].push(submission);
+            } else {
+              updatedProblems[problem.id] = [submission];
+            }
 
             await updateDoc(userRef, {
-              [`submissions.${problem.id}`]: problemSubmissions,
+              solvedProblems: updatedProblems,
             });
+
+            toast.success("Your code was submitted successfully!", {
+              position: "top-center",
+              autoClose: 3000,
+              theme: "dark",
+            });
+            setSubmitLoading(false);
           }
         }
       }
@@ -79,34 +112,39 @@ const PlayGround = ({ problem }) => {
         autoClose: 3000,
         theme: "dark",
       });
+      setSubmitLoading(false);
     }
   };
 
   const handleRun = async () => {
-    if (!user) {
+    setRunLoading(true);
+    if (!userData) {
       toast.error("Please login to run your code", {
         position: "top-center",
         autoClose: 3000,
         theme: "dark",
       });
+      setRunLoading(false);
+
       return;
     }
 
     try {
-      const editorCode = userCode.slice(
-        userCode.indexOf(data.starterFunctionName)
-      );
+      const editorCode = userCode.slice(userCode.indexOf(starterFunctionName));
       const cb = new Function(`return ${editorCode}`)();
-      const handler = handlerFunction;
+      // const handler = eval(handlerFunction);
+      const handler = new Function("return " + eval(handlerFunction))();
+
       if (typeof handler === "function") {
-        setRunAccepted(()=>handler(cb)) 
-        if (runAccepted) {
+        const passedAllTestCase = handler(cb);
+        if (passedAllTestCase) {
           setRunAccepted(true);
           toast.success("Accepted. You can submit now", {
             position: "top-center",
             autoClose: 3000,
             theme: "dark",
           });
+          setRunLoading(false);
         } else {
           // Directly show the toast for wrong answer instead of throwing an error
           toast.error("Wrong answer", {
@@ -114,6 +152,7 @@ const PlayGround = ({ problem }) => {
             autoClose: 3000,
             theme: "dark",
           });
+          setRunLoading(false);
         }
       }
     } catch (error) {
@@ -123,13 +162,13 @@ const PlayGround = ({ problem }) => {
         autoClose: 3000,
         theme: "dark",
       });
+      setRunLoading(false);
     }
   };
 
-
   return (
     <div className="w-[inherit] h-full p-0.5 pl-0">
-      <div className="relative w-full h-full overflow-hidden">
+      <div className="w-full h-full overflow-hidden">
         <Split
           className="split w-full h-full"
           gutterSize={5}
@@ -144,6 +183,8 @@ const PlayGround = ({ problem }) => {
             problem={problem}
             handleRun={handleRun}
             handleSubmit={handleSubmit}
+            runLoading={runLoading}
+            submitLoading={submitLoading}
           />
         </Split>
       </div>

@@ -6,6 +6,7 @@ import validator from "validator";
 import { Navigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -15,7 +16,7 @@ const SignUp = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, error } = useSelector(
+  const { userData, isLoading, isError, error } = useSelector(
     (state) => state.user
   );
 
@@ -47,15 +48,16 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setEmailFocus(true);
-    if (email && emailValidate && passwordMatched && password) {
+    if (name && email && emailValidate && passwordMatched && password) {
       try {
-        dispatch(signUp({ email, password }));
+        dispatch(signUp({ email, password,name }));
+
       } catch (error) {
         console.log(error.message);
       }
     }
   };
-  if (user?.email && !isLoading && !isError) {
+  if (userData?.email && !isLoading && !isError) {
     return <Navigate to="/" />;
   }
   
@@ -71,7 +73,15 @@ const SignUp = () => {
           className="w-5/12 mx-auto"
         />
         <form onSubmit={handleSubmit} className="flex flex-col mt-6 text-black">
-          <div className="h-14">
+          <input
+            id="name"
+            type="text"
+            value={name}
+            placeholder="Full Name"
+            onChange={(e) => setName(e.target.value)}
+            className="flex items-center py-2 px-4 w-64 bg-gray-200 mt-4 rounded-lg focus:outline-none focus:shadow-lg"
+          />
+          <div className="h-14 mt-3">
             <input
               id="emailField"
               type="text"
@@ -91,15 +101,17 @@ const SignUp = () => {
 
           <input
             id="passwordField"
+            key={"password"}
             type="password"
             value={password}
             placeholder="Password"
             onChange={handlePasswordInput}
-            className="flex items-center py-2 px-4 w-64 bg-gray-200 mt-4 rounded-lg focus:outline-none focus:shadow-lg"
+            className="flex items-center py-2 px-4 w-64 bg-gray-200 mt-3 rounded-lg focus:outline-none focus:shadow-lg"
           />
           <input
             id="passwordField"
             type="password"
+            key={"confirmPassword"}
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

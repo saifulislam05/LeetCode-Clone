@@ -1,16 +1,20 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { auth, provider, firestore } from "../../firebase/firebaseConfig";
 
+console.log('====================================');
+console.log("userSlice");
+console.log('====================================');
 // Utility functions for localStorage
-const saveUserToLocalstorage = (user) => {
-  localStorage.setItem("user", JSON.stringify(user));
+const saveUserToLocalstorage = (userData) => {
+  localStorage.setItem("user", JSON.stringify(userData));
 };
 
 const removeUserFromLocalstorage = () => {
@@ -18,51 +22,82 @@ const removeUserFromLocalstorage = () => {
 };
 
 // Initialize state from localStorage
-const userFromLocalStorage = JSON.parse(localStorage.getItem("user"));
+const userDataFromLocalStorage = JSON.parse(localStorage.getItem('user') || '{}');
 
 
 const initialState = {
-  user: userFromLocalStorage || null,
-  userData: null,
+  userData: userDataFromLocalStorage || null,
   isLoading: false,
   isError: false,
   errorMessage: "",
 };
 
-// Add an initialization thunk for subscribing to user data on page refresh
-export const initializeUser = createAsyncThunk(
-  "user/initializeUser",
-  async (_, { getState, dispatch }) => {
-    const state = getState();
-    if (state.user.user) {
-      subscribeToUserData(state.user.user.uid, dispatch);
+
+// Async thunk for initializing user data
+export const initializeUser = createAsyncThunk('user/initializeUser', async (_, { dispatch }) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const unsubscribe = subscribeToUserData(user.uid, dispatch);
+      return () => unsubscribe(); // Cleanup subscription on unmount or logout
+    } else {
+      dispatch(clearUserData()); // Clear user data if not logged in
     }
-  }
-);
+  });
+});
+
+// Firestore subscription
+const subscribeToUserData = (userId, dispatch) => {
+  const docRef = doc(firestore, 'users', userId);
+  return onSnapshot(docRef, (doc) => {
+    if (doc.exists()) {
+      const userData = doc.data();
+      dispatch(setUserData(userData));
+      saveUserToLocalstorage(userData);
+    } else {
+      console.log('No such document!');
+    }
+  });
+};
 
 
-// Async thunks
+
 export const signIn = createAsyncThunk(
   "user/signIn",
   async ({ email, password }, { dispatch }) => {
-    const response = await signInWithEmailAndPassword(auth, email, password);
-    saveUserToLocalstorage(response.user);
-    subscribeToUserData(response.user.uid, dispatch);
-    return response.user;
+    try {
+      const response = await signInWithEmailAndPassword(auth, email, password);
+
+      subscribeToUserData(response.user.uid, dispatch);
+      return response.user.uid;
+    } catch (error) {
+      console.error("Error in user sign-in or Firestore operation:", error);
+      throw error;
+    }
   }
 );
 
 export const signUp = createAsyncThunk(
   "user/signUp",
-  async ({ email, password }, { dispatch }) => {
+  async ({ email, password, name }, { dispatch }) => {
     const response = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    saveUserToLocalstorage(response.user);
+    const userData = {
+      uid: response.user.uid,
+      email: response.user.email,
+      displayName: name || response.user.displayName,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      likedProblems: [],
+      dislikedProblems: [],
+      solvedProblems: [],
+      starredProblems: [],
+    };
+    await setDoc(doc(firestore, "users", response.user.uid), userData);
     subscribeToUserData(response.user.uid, dispatch);
-    return response.user;
+    return response.user.uid;
   }
 );
 
@@ -70,9 +105,24 @@ export const googleSignIn = createAsyncThunk(
   "user/googleSignIn",
   async (_, { dispatch }) => {
     const response = await signInWithPopup(auth, provider);
-    saveUserToLocalstorage(response.user);
+    const userRef = doc(firestore, "users", response.user.uid);
+    const docSnap = await getDoc(userRef);
+    if (!docSnap.exists()) {
+      const userData = {
+        uid: response.user.uid,
+        email: response.user.email,
+        displayName: response.user.displayName,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        likedProblems: [],
+        dislikedProblems: [],
+        solvedProblems: [],
+        starredProblems: [],
+      };
+      await setDoc(userRef, userData);
+    }
     subscribeToUserData(response.user.uid, dispatch);
-    return response.user;
+    return response.user.uid;
   }
 );
 
@@ -81,24 +131,16 @@ export const logOut = createAsyncThunk("user/logOut", async () => {
   removeUserFromLocalstorage();
 });
 
-// Firestore subscription
-const subscribeToUserData = (userId, dispatch) => {
-  const docRef = doc(firestore, "users", userId);
-  return onSnapshot(docRef, (doc) => {
-    if (doc.exists()) {
-      dispatch(setUserData(doc.data()));
-    } else {
-      console.log("No such document!");
-    }
-  });
-};
-
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
     setUserData: (state, action) => {
       state.userData = action.payload;
+    },
+    clearUserData: (state) => {
+      state.userData = null;
+      removeUserFromLocalstorage();
     },
   },
   extraReducers: (builder) => {
@@ -108,9 +150,8 @@ export const userSlice = createSlice({
         state.isError = false;
         state.errorMessage = "";
       })
-      .addCase(signIn.fulfilled, (state, action) => {
+      .addCase(signIn.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = action.payload;
       })
       .addCase(signIn.rejected, (state, action) => {
         state.isLoading = false;
@@ -122,9 +163,8 @@ export const userSlice = createSlice({
         state.isError = false;
         state.errorMessage = "";
       })
-      .addCase(signUp.fulfilled, (state, action) => {
+      .addCase(signUp.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = action.payload;
       })
       .addCase(signUp.rejected, (state, action) => {
         state.isLoading = false;
@@ -136,9 +176,8 @@ export const userSlice = createSlice({
         state.isError = false;
         state.errorMessage = "";
       })
-      .addCase(googleSignIn.fulfilled, (state, action) => {
+      .addCase(googleSignIn.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = action.payload;
       })
       .addCase(googleSignIn.rejected, (state, action) => {
         state.isLoading = false;
@@ -150,7 +189,6 @@ export const userSlice = createSlice({
       })
       .addCase(logOut.fulfilled, (state) => {
         state.isLoading = false;
-        state.user = null;
         state.userData = null;
       })
       .addCase(logOut.rejected, (state, action) => {
@@ -161,6 +199,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUserData } = userSlice.actions;
+export const { setUserData, clearUserData } = userSlice.actions;
 
 export default userSlice.reducer;

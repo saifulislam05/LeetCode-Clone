@@ -3,13 +3,15 @@ import Split from "react-split";
 import PlayGround from "../components/WorkSpace/PlayGround/PlayGround";
 import Description from "../components/WorkSpace/Description/Description";
 import { useParams } from "react-router-dom";
-import { problems } from "../utils/problems";
+import { useSelector } from "react-redux";
+// import { allProblems } from "../utils/problems/allProblems";
 
 const WorkSpace = () => {
   const { problemId } = useParams();
+  const { problems } = useSelector((state) => state.problems);
 
-  const currentProblem = problems.find(problem => problem.id === problemId);
-console.log(currentProblem);
+  const currentProblem = problems.find((problem) => problem.id === problemId);
+
   return (
     <div className="mx-1 my-2 overflow-hidden">
       <Split

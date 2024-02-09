@@ -13,7 +13,7 @@ const SignIn = () => {
   // const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isError, errorMessage } = useSelector(
+  const { userData, isLoading, isError, errorMessage } = useSelector(
     (state) => state.user
   );
   useEffect(() => {
@@ -65,7 +65,8 @@ const SignIn = () => {
   const handleGoogleSignIn = () => {
     dispatch(googleSignIn());
   };
-  if (user?.email && !isLoading && !isError) {
+
+  if (userData?.email && !isLoading && !isError) {
     return <Navigate to="/" />;
   }
   return (

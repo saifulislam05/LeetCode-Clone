@@ -9,7 +9,12 @@ import { initializeUser } from "./redux/features/userSlice";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect } from "react";
+import UploadProblems from "./Pages/UploadProblems";
+import DemoCompiler from "./Pages/DemoCompiler";
+import { subscribeToProblems } from "./redux/features/problemSlice";
 function App() {
+  const dispatch = useDispatch();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -31,15 +36,36 @@ function App() {
           path: "/signin",
           element: <SignIn />,
         },
+        {
+          path: "/upload",
+          element: <UploadProblems />,
+        },
+        ,
+        {
+          path: "/dd",
+          element: <DemoCompiler />,
+        },
       ],
     },
   ]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    console.log("====================================");
+    console.log("App");
+    console.log("====================================");
+    dispatch(initializeUser());
+
+  }, []);
 
   useEffect(() => {
     dispatch(initializeUser());
-  }, []);
+    
+    const unsubscribe = dispatch(subscribeToProblems()); // Subscribe to real-time updates
+
+    return () => {
+      unsubscribe(); 
+    };
+  }, [dispatch]);
   return (
     <>
       <ToastContainer />

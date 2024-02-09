@@ -4,15 +4,16 @@ const starterCodeTwoSum = `function twoSum(nums, target) {
 };`;
 
 // A simple function to compare two arrays for equality
-const arraysAreEqual = (array1, array2) => {
-  return (
-    array1.length === array2.length &&
-    array1.every((element, index) => element === array2[index])
-  );
-};
+
 
 // Updated handlerTwoSum function with custom error handling
 const handlerTwoSum = (fn) => {
+    const arraysAreEqual = (array1, array2) => {
+      return (
+        array1.length === array2.length &&
+        array1.every((element, index) => element === array2[index])
+      );
+    };
     try {
         const nums = [
             [2, 7, 11, 15],

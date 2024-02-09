@@ -1,9 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { IoMdArrowDropup, IoMdArrowDropdown  } from "react-icons/io";
 
-import { problems } from "../../utils/problems";
+// import { allProblems } from "../../utils/problems/allProblems";
 import TableRow from "./TableRow";
 
 const Table = () => {
+
+  const {problems}=useSelector(state=>state.problems)
+  
   return (
     <div className="table-scroll max-h-[75vh] overflow-y-auto">
       <table className="text-sm text-left w-full mx-auto">

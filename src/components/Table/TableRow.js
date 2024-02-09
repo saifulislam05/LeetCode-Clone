@@ -17,7 +17,7 @@ const TableRow = ({ idx, problem }) => {
 
   const { userData } = useSelector((state) => state.user);
 
-  const submissionsForCurrentProblem = userData?.submissions?.[id];
+  const submissionsForCurrentProblem = userData?.solvedProblems?.[id];
   // console.log(submissionsForCurrentProblem[0] + id);
 
   let difficultyColor;
@@ -65,7 +65,7 @@ const TableRow = ({ idx, problem }) => {
           )}
         </td>
         <td className=" ">
-          {problem.data ? (
+          {problem.problemStatement ? (
             <Link
               to={`/problems/${id}`}
               className="hover:text-blue-600 cursor-pointer"
@@ -103,7 +103,10 @@ const TableRow = ({ idx, problem }) => {
               <path d="M941.3 296.1a112.3 112.3 0 0 0-79.2-79.3C792.2 198 512 198 512 198s-280.2 0-350.1 18.7A112.12 112.12 0 0 0 82.7 296C64 366 64 512 64 512s0 146 18.7 215.9c10.3 38.6 40.7 69 79.2 79.3C231.8 826 512 826 512 826s280.2 0 350.1-18.8c38.6-10.3 68.9-40.7 79.2-79.3C960 658 960 512 960 512s0-146-18.7-215.9zM423 646V378l232 133-232 135z"></path>
             </svg>
             {youtubePlayer.isOpen && (
-              <div className="absolute left-0 top-0 w-[99vw] h-[99vh] m-auto bg-[#3f3f3f62]  flex justify-center items-center z-50 cursor-pointer" onClick={()=>closeYoutubeModal()}>
+              <div
+                className="absolute left-0 top-0 w-[99vw] h-[99vh] m-auto bg-[#3f3f3f62]  flex justify-center items-center z-50 cursor-pointer"
+                onClick={() => closeYoutubeModal()}
+              >
                 <YouTube
                   videoId={youtubePlayer.videoId}
                   opts={{

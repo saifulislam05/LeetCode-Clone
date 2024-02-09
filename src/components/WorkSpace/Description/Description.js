@@ -6,26 +6,17 @@ import { TbFileDescription } from "react-icons/tb";
 import { GrHistory } from "react-icons/gr";
 
 const Description = ({ problem }) => {
-  const {id, data, difficulty } = problem;
-  const { title, problemStatement, examples, constraints } = data;
+  const {id,  difficulty ,title, problemStatement, examples, constraints} = problem || {};
+  // const {  } = data;
 
   const { userData } = useSelector((state) => state.user);
 
-
-  // const hasSubmissionsForCurrentProblem =
-  //   userData &&
-  //   userData?.submissions &&
-  //   Array.isArray(userData?.submissions[id]) &&
-  //   userData?.submissions[id].length > 0;
-  // console.log(hasSubmissionsForCurrentProblem + id);
-  
-  const submissionsForCurrentProblem = userData?.submissions?.[id];
-  // console.log(submissionsForCurrentProblem[0] + id);
+  const submissionsForCurrentProblem = userData?.solvedProblems[id];
 
   return (
     <div className=" h-full p-0.5">
-      <div className="h-full min-w-full border-[.5px] m-0 border-[#dddddd6e] rounded-lg shadow-2xl overflow-hidden">
-        <div className="flex flex-col min-w-full h-full items-center pt-0.5 text-white">
+      <div className=" relative h-full min-w-full border-[.5px] m-0 border-[#dddddd6e] rounded-lg shadow-2xl overflow-hidden">
+        <div className="flex flex-col min-w-full h-[95%] items-center pt-0.5 text-white ">
           <div className="bg-base-200 flex gap-2 w-full pt-2">
             <div className="rounded-t-xl bg-neutral flex gap-1 items-center w-fit px-5 py-2 text-sm cursor-pointer select-none">
               <TbFileDescription size={18} className="text-blue-600 " />
@@ -115,12 +106,13 @@ const Description = ({ problem }) => {
                     </ul>
                   </div>
                   <div>
-                    <DescriptionActions />
+                    {/* <DescriptionActions /> */}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <DescriptionActions problem={problem}/>
         </div>
       </div>
     </div>
