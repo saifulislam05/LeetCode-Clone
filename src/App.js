@@ -50,9 +50,7 @@ function App() {
   ]);
 
   useEffect(() => {
-    console.log("====================================");
-    console.log("App");
-    console.log("====================================");
+
     dispatch(initializeUser());
 
   }, []);

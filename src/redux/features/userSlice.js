@@ -9,9 +9,7 @@ import {
 import { doc, getDoc, onSnapshot, setDoc } from "firebase/firestore";
 import { auth, provider, firestore } from "../../firebase/firebaseConfig";
 
-console.log('====================================');
-console.log("userSlice");
-console.log('====================================');
+
 // Utility functions for localStorage
 const saveUserToLocalstorage = (userData) => {
   localStorage.setItem("user", JSON.stringify(userData));
